@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hx.reader.model.dao.TRoleOrgMapper" >
+  <resultMap id="BaseResultMap" type="com.hx.reader.model.pojo.TRoleOrg" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="roleId" property="roleid" jdbcType="VARCHAR" />
+    <result column="orgId" property="orgid" jdbcType="VARCHAR" />
+    <result column="orgType" property="orgtype" jdbcType="INTEGER" />
+    <result column="hasLeaf" property="hasleaf" jdbcType="INTEGER" />
+    <result column="active" property="active" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, roleId, orgId, orgType, hasLeaf, active
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_role_org
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_role_org
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.hx.reader.model.pojo.TRoleOrg" >
+    insert into t_role_org (id, roleId, orgId, 
+      orgType, hasLeaf, active
+      )
+    values (#{id,jdbcType=BIGINT}, #{roleid,jdbcType=VARCHAR}, #{orgid,jdbcType=VARCHAR}, 
+      #{orgtype,jdbcType=INTEGER}, #{hasleaf,jdbcType=INTEGER}, #{active,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hx.reader.model.pojo.TRoleOrg" >
+    insert into t_role_org
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="roleid != null" >
+        roleId,
+      </if>
+      <if test="orgid != null" >
+        orgId,
+      </if>
+      <if test="orgtype != null" >
+        orgType,
+      </if>
+      <if test="hasleaf != null" >
+        hasLeaf,
+      </if>
+      <if test="active != null" >
+        active,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="roleid != null" >
+        #{roleid,jdbcType=VARCHAR},
+      </if>
+      <if test="orgid != null" >
+        #{orgid,jdbcType=VARCHAR},
+      </if>
+      <if test="orgtype != null" >
+        #{orgtype,jdbcType=INTEGER},
+      </if>
+      <if test="hasleaf != null" >
+        #{hasleaf,jdbcType=INTEGER},
+      </if>
+      <if test="active != null" >
+        #{active,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hx.reader.model.pojo.TRoleOrg" >
+    update t_role_org
+    <set >
+      <if test="roleid != null" >
+        roleId = #{roleid,jdbcType=VARCHAR},
+      </if>
+      <if test="orgid != null" >
+        orgId = #{orgid,jdbcType=VARCHAR},
+      </if>
+      <if test="orgtype != null" >
+        orgType = #{orgtype,jdbcType=INTEGER},
+      </if>
+      <if test="hasleaf != null" >
+        hasLeaf = #{hasleaf,jdbcType=INTEGER},
+      </if>
+      <if test="active != null" >
+        active = #{active,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hx.reader.model.pojo.TRoleOrg" >
+    update t_role_org
+    set roleId = #{roleid,jdbcType=VARCHAR},
+      orgId = #{orgid,jdbcType=VARCHAR},
+      orgType = #{orgtype,jdbcType=INTEGER},
+      hasLeaf = #{hasleaf,jdbcType=INTEGER},
+      active = #{active,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

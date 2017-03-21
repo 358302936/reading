@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hx.reader.model.dao.WeixinMenuMapper" >
+  <resultMap id="BaseResultMap" type="com.hx.reader.model.pojo.WeixinMenu" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="weixinId" property="weixinid" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="pid" property="pid" jdbcType="VARCHAR" />
+    <result column="linkType" property="linktype" jdbcType="VARCHAR" />
+    <result column="linkId" property="linkid" jdbcType="VARCHAR" />
+    <result column="href" property="href" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, weixinId, name, pid, linkType, linkId, href
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from weixin_menu
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from weixin_menu
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hx.reader.model.pojo.WeixinMenu" >
+    insert into weixin_menu (id, weixinId, name, 
+      pid, linkType, linkId, 
+      href)
+    values (#{id,jdbcType=INTEGER}, #{weixinid,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{pid,jdbcType=VARCHAR}, #{linktype,jdbcType=VARCHAR}, #{linkid,jdbcType=VARCHAR}, 
+      #{href,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hx.reader.model.pojo.WeixinMenu" >
+    insert into weixin_menu
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="weixinid != null" >
+        weixinId,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="pid != null" >
+        pid,
+      </if>
+      <if test="linktype != null" >
+        linkType,
+      </if>
+      <if test="linkid != null" >
+        linkId,
+      </if>
+      <if test="href != null" >
+        href,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="weixinid != null" >
+        #{weixinid,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="pid != null" >
+        #{pid,jdbcType=VARCHAR},
+      </if>
+      <if test="linktype != null" >
+        #{linktype,jdbcType=VARCHAR},
+      </if>
+      <if test="linkid != null" >
+        #{linkid,jdbcType=VARCHAR},
+      </if>
+      <if test="href != null" >
+        #{href,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hx.reader.model.pojo.WeixinMenu" >
+    update weixin_menu
+    <set >
+      <if test="weixinid != null" >
+        weixinId = #{weixinid,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="pid != null" >
+        pid = #{pid,jdbcType=VARCHAR},
+      </if>
+      <if test="linktype != null" >
+        linkType = #{linktype,jdbcType=VARCHAR},
+      </if>
+      <if test="linkid != null" >
+        linkId = #{linkid,jdbcType=VARCHAR},
+      </if>
+      <if test="href != null" >
+        href = #{href,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hx.reader.model.pojo.WeixinMenu" >
+    update weixin_menu
+    set weixinId = #{weixinid,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      pid = #{pid,jdbcType=VARCHAR},
+      linkType = #{linktype,jdbcType=VARCHAR},
+      linkId = #{linkid,jdbcType=VARCHAR},
+      href = #{href,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
