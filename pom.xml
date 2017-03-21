@@ -48,7 +48,68 @@
 		<version>${spring.version}</version>
 	</dependency>
 	
+	<dependency>
+	    <groupId>org.springframework</groupId>
+	    <artifactId>spring-aspects</artifactId>
+	    <version>${spring.version}</version>
+	</dependency>
   
+    <!-- dbcp连接池需要的jar包 -->  
+    <dependency>  
+        <groupId>commons-dbcp</groupId>  
+        <artifactId>commons-dbcp</artifactId>  
+        <version>1.4</version>  
+    </dependency> 
+  
+    <!-- mybatis核心包 -->  
+    <dependency>  
+        <groupId>org.mybatis</groupId>  
+        <artifactId>mybatis</artifactId>  
+        <version>3.2.6</version>  
+    </dependency>  
+    <!-- mybatis/spring包 -->  
+    <dependency>  
+        <groupId>org.mybatis</groupId>  
+        <artifactId>mybatis-spring</artifactId>  
+        <version>1.2.2</version>  
+    </dependency>  
+    <!-- jstl需要的jar包 -->  
+    <dependency>  
+        <groupId>jstl</groupId>  
+        <artifactId>jstl</artifactId>  
+        <version>1.2</version>  
+    </dependency>  
+
+    <!-- log4j需要的jar包 -->  
+    <dependency>  
+        <groupId>log4j</groupId>  
+        <artifactId>log4j</artifactId>  
+        <version>1.2.17</version>  
+    </dependency>
+    
+    <!-- 映入JSON -->  
+   <dependency>  
+       <groupId>com.fasterxml.jackson.core</groupId>  
+       <artifactId>jackson-annotations</artifactId>  
+       <version>2.5.1</version>  
+   </dependency>          
+   <dependency>  
+       <groupId>com.fasterxml.jackson.jr</groupId>  
+       <artifactId>jackson-jr-all</artifactId>  
+       <version>2.5.1</version>  
+   </dependency> 
+   
+   <dependency>
+     <groupId>com.fasterxml.jackson.core</groupId>
+	 <artifactId>jackson-core</artifactId>
+	 <version>2.5.1</version>
+   </dependency>
+   <dependency>
+	   <groupId>com.fasterxml.jackson.core</groupId>
+	   <artifactId>jackson-databind</artifactId>
+	   <version>2.5.1</version>
+    </dependency>
+     
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
