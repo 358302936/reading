@@ -136,17 +136,13 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.hx.reader.model.pojo.TUser" >
-    update t_user
-    set name = #{name,jdbcType=VARCHAR},
-      account = #{account,jdbcType=VARCHAR},
-      password = #{password,jdbcType=VARCHAR},
-      sex = #{sex,jdbcType=VARCHAR},
-      mobile = #{mobile,jdbcType=VARCHAR},
-      email = #{email,jdbcType=VARCHAR},
-      weixinId = #{weixinid,jdbcType=VARCHAR},
-      userType = #{usertype,jdbcType=INTEGER},
-      active = #{active,jdbcType=INTEGER}
-    where id = #{id,jdbcType=BIGINT}
-  </update>
+  <!-- 根据条件查询用户 -->
+  <select id="selectByCondition" parameterType="com.hx.reader.model.pojo.TUser" resultType="com.hx.reader.model.pojo.TUser">
+     select <include refid="Base_Column_List" /> from t_user
+     <where>
+       <if test="name != null">
+          name like '%${name}%'
+       </if>
+     </where>
+  </select>
 </mapper>

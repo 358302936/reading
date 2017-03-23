@@ -1,6 +1,9 @@
 package com.hx.reader.model.service.impl;
 
 
+import java.sql.SQLException;
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -50,5 +53,15 @@ public class UserServiceImpl implements IUserService{
 		// TODO Auto-generated method stub
 		return 0;
 	}
+	
+	/**
+     * 根据条件查询用户
+     * @param record
+     * @return
+     * @throws SQLException
+     */
+    public List<TUser> selectByCondition(TUser record) throws SQLException{
+    	return this.userMapper.selectByCondition(record);
+    }
 
 }

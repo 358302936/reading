@@ -1,5 +1,8 @@
 package com.hx.reader.model.dao;
 
+import java.sql.SQLException;
+import java.util.List;
+
 import com.hx.reader.model.pojo.TUser;
 
 public interface TUserMapper {
@@ -14,4 +17,12 @@ public interface TUserMapper {
     int updateByPrimaryKeySelective(TUser record);
 
     int updateByPrimaryKey(TUser record);
+    
+    /**
+     * 根据条件查询用户
+     * @param record
+     * @return
+     * @throws SQLException
+     */
+    List<TUser> selectByCondition(TUser record) throws SQLException;
 }

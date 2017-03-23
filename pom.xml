@@ -61,6 +61,13 @@
         <version>1.4</version>  
     </dependency> 
   
+    <!-- 链接数据驱动核心包 -->
+    <dependency>
+	    <groupId>mysql</groupId>
+	    <artifactId>mysql-connector-java</artifactId>
+	    <version>6.0.5</version>
+	 </dependency>
+  
     <!-- mybatis核心包 -->  
     <dependency>  
         <groupId>org.mybatis</groupId>  
@@ -73,7 +80,7 @@
         <artifactId>mybatis-spring</artifactId>  
         <version>1.2.2</version>  
     </dependency>  
-    <!-- jstl需要的jar包 -->  
+    <!-- 标签jstl需要的jar包 -->  
     <dependency>  
         <groupId>jstl</groupId>  
         <artifactId>jstl</artifactId>  
@@ -81,12 +88,21 @@
     </dependency>  
 
     <!-- log4j需要的jar包 -->  
-    <dependency>  
-        <groupId>log4j</groupId>  
-        <artifactId>log4j</artifactId>  
-        <version>1.2.17</version>  
-    </dependency>
-    
+    <dependency>
+	    <groupId>org.apache.logging.log4j</groupId>
+	    <artifactId>log4j-core</artifactId>
+	    <version>2.8.1</version>
+	</dependency>
+    <dependency>
+	    <groupId>org.slf4j</groupId>
+	    <artifactId>slf4j-api</artifactId>
+	    <version>1.7.25</version>
+	</dependency>
+	<dependency>
+	    <groupId>org.slf4j</groupId>
+	    <artifactId>slf4j-log4j12</artifactId>
+	    <version>1.7.25</version>
+	</dependency>
     <!-- 映入JSON -->  
    <dependency>  
        <groupId>com.fasterxml.jackson.core</groupId>  
@@ -109,7 +125,18 @@
 	   <artifactId>jackson-databind</artifactId>
 	   <version>2.5.1</version>
     </dependency>
-     
+     <!-- 由于设置了@ResponseBody,要把对象转换成json格式
+	<dependency>
+	    <groupId>org.codehaus.jackson</groupId>
+	    <artifactId>jackson-core-asl</artifactId>
+	    <version>1.9.13</version>
+	</dependency>
+    <dependency>
+	    <groupId>org.codehaus.jackson</groupId>
+	    <artifactId>jackson-mapper-asl</artifactId>
+	    <version>1.9.13</version>
+	</dependency>
+	 -->
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>

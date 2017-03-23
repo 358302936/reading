@@ -1,5 +1,8 @@
 package com.hx.reader.model.service;
 
+import java.sql.SQLException;
+import java.util.List;
+
 import com.hx.reader.model.pojo.TUser;
 
 /**
@@ -20,4 +23,12 @@ public interface IUserService {
 	public int updateByPrimaryKeySelective(TUser record);
 
 	public int updateByPrimaryKey(TUser record);
+	
+	/**
+     * 根据条件查询用户
+     * @param record
+     * @return
+     * @throws SQLException
+     */
+    List<TUser> selectByCondition(TUser record) throws SQLException;
 }
