@@ -66,6 +66,7 @@ public class UserController {
 			ret = ReturnData.newSuccessReturnData();
 			ret.setData(list);
 		} catch (Exception e) {
+			e.printStackTrace();
 			throw new HttpException(500, e.getMessage());
 		}
 		

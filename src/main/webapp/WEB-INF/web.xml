@@ -4,11 +4,19 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
   <display-name>reader</display-name>
   
-  <!-- Spring和mybatis的配置文件 -->  
+   <!-- Spring配置 -->  
     <context-param>  
         <param-name>contextConfigLocation</param-name>  
-        <param-value>classpath:spring-mybatis.xml</param-value>  
+        <param-value>classpath:spring-config.xml</param-value>  
     </context-param>  
+    <!-- Spring监听器 -->  
+    <listener>  
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>  
+    </listener>  
+    <!-- 防止Spring内存溢出监听器 -->  
+    <listener>  
+        <listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>  
+    </listener>  
     
     <!-- 编码过滤器 -->  
     <filter>  
@@ -24,14 +32,6 @@
         <filter-name>encodingFilter</filter-name>  
         <url-pattern>/*</url-pattern>  
     </filter-mapping>  
-    <!-- Spring监听器 -->  
-    <listener>  
-        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>  
-    </listener>  
-    <!-- 防止Spring内存溢出监听器 -->  
-    <listener>  
-        <listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>  
-    </listener>  
     
      <!-- Spring MVC servlet -->  
     <servlet>  
@@ -57,12 +57,11 @@
 	<context-param>
 		<param-name>log4jRefreshInterval</param-name>
 		<param-value>600000</param-value>
-	</context-param>
-	
+	</context-param>	
 	<listener>
 		<listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
 	</listener>
-  
+  <!-- 配置首页 -->
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
     <welcome-file>index.htm</welcome-file>
