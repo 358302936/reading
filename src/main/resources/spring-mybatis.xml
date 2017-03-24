@@ -30,11 +30,41 @@
         <property name="minIdle" value="${db.minPoolSize}"></property>  
         <!-- 获取连接最大等待时间 -->  
         <property name="maxWait" value="${db.maxIdleTime}"></property>  
-    </bean>  
+    </bean>
+    
+    <bean id="dataSource1" class="org.apache.commons.dbcp.BasicDataSource"  
+        destroy-method="close">  
+        <property name="driverClassName" value="${db.driverClass1}" />  
+        <property name="url" value="${db.jdbcUrl1}" />  
+        <property name="username" value="${db.user1}" />  
+        <property name="password" value="${db.password1}" />  
+        <!-- 初始化连接大小 -->  
+        <property name="initialSize" value="${db.initialPoolSize}"></property>  
+        <!-- 连接池最大数量 -->  
+        <property name="maxActive" value="${db.maxPoolSize}"></property>  
+        <!-- 连接池最大空闲 -->  
+        <property name="maxIdle" value="${db.minPoolSize}"></property>  
+        <!-- 连接池最小空闲 -->  
+        <property name="minIdle" value="${db.minPoolSize}"></property>  
+        <!-- 获取连接最大等待时间 -->  
+        <property name="maxWait" value="${db.maxIdleTime}"></property>  
+    </bean>    
+  
+     <!-- 配置多数据源映射 -->
+	<bean id="multipleDataSource" class="com.hx.reader.components.dataSource.MultipleDataSource" >
+	     <property name="targetDataSources">
+	         <map key-type="java.lang.String">
+	             <entry value-ref="dataSource" key="dataSource"></entry>
+	             <entry value-ref="dataSource1" key="dataSource1"></entry>
+	         </map>
+	     </property>
+	     <!-- 默认数据源 -->
+	     <property name="defaultTargetDataSource" ref="dataSource" />
+	</bean>
   
     <!-- spring和MyBatis完美整合，不需要mybatis的配置映射文件 -->  
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">  
-        <property name="dataSource" ref="dataSource" />  
+        <property name="dataSource" ref="multipleDataSource" />  
         <!-- 自动扫描mapping.xml文件 -->  
         <property name="mapperLocations" value="classpath:mybatis-mapper/*.xml"></property>  
         <!-- 翻页插件 -->
@@ -52,7 +82,7 @@
      <!-- (事务管理)transaction manager, use JtaTransactionManager for global tx -->  
     <bean id="transactionManager"  
         class="org.springframework.jdbc.datasource.DataSourceTransactionManager">  
-        <property name="dataSource" ref="dataSource" />  
+        <property name="dataSource" ref="multipleDataSource" />  
     </bean>  
        
         	

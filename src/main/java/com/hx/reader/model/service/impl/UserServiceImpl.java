@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import com.hx.reader.components.dataSource.DynamicDataSourceHolder;
 import com.hx.reader.model.dao.TUserMapper;
 import com.hx.reader.model.pojo.TUser;
 import com.hx.reader.model.service.IUserService;
@@ -61,6 +62,7 @@ public class UserServiceImpl implements IUserService{
      * @throws SQLException
      */
     public List<TUser> selectByCondition(TUser record) throws SQLException{
+    	DynamicDataSourceHolder.setRouteKey("dataSource");
     	return this.userMapper.selectByConditionByPage(record);
     }
 
