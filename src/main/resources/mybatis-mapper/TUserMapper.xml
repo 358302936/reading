@@ -137,7 +137,7 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
   <!-- 根据条件查询用户 -->
-  <select id="selectByCondition" parameterType="com.hx.reader.model.pojo.TUser" resultType="com.hx.reader.model.pojo.TUser">
+  <select id="selectByConditionByPage" parameterType="com.hx.reader.model.pojo.TUser" resultType="com.hx.reader.model.pojo.TUser">
      select <include refid="Base_Column_List" /> from t_user
      <where>
        <if test="name != null">

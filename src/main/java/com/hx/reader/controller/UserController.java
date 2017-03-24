@@ -6,6 +6,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.aspectj.lang.annotation.Before;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.hx.reader.components.HttpException;
+import com.hx.reader.components.PageParameter;
 import com.hx.reader.components.ReturnData;
 import com.hx.reader.model.pojo.TUser;
 import com.hx.reader.model.service.IUserService;
@@ -32,7 +34,7 @@ public class UserController {
 	 * @param response
 	 * @return
 	 */
-	@RequestMapping(value="/add",method=RequestMethod.POST,produces="application/json;charset=UTF-8")
+	@RequestMapping(value="/add",method=RequestMethod.POST,produces="application/json;charset=UTF-8")	
 	public ResponseEntity<ReturnData> addUser(HttpServletRequest request,HttpServletResponse response,
 			@RequestBody TUser record){
 		ReturnData ret  = null;
@@ -55,13 +57,16 @@ public class UserController {
 	 * @return
 	 */
 	@RequestMapping(value="/query",method=RequestMethod.GET,produces="application/json;charset=UTF-8")
+	@Before(value="dddd")
 	public ResponseEntity<ReturnData> queryUser(HttpServletRequest request,HttpServletResponse response,
 			@RequestParam String name){
 		ReturnData ret  = null;
 		
 		try {
+			PageParameter page = new PageParameter();
 			TUser u = new TUser();
 			u.setName(name);
+			u.setPage(page);
 			List<TUser> list = this.userService.selectByCondition(u);
 			ret = ReturnData.newSuccessReturnData();
 			ret.setData(list);

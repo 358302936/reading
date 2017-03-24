@@ -1,4 +1,4 @@
-package com.hx.reader.components;
+package com.hx.reader.components.aop;
 
 import org.springframework.stereotype.Controller;
 

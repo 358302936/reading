@@ -61,7 +61,7 @@ public class UserServiceImpl implements IUserService{
      * @throws SQLException
      */
     public List<TUser> selectByCondition(TUser record) throws SQLException{
-    	return this.userMapper.selectByCondition(record);
+    	return this.userMapper.selectByConditionByPage(record);
     }
 
 }

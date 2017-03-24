@@ -1,5 +1,7 @@
 package com.hx.reader.model.pojo;
 
+import com.hx.reader.components.PageParameter;
+
 public class TUser {
     /**
      *   编号
@@ -50,6 +52,8 @@ public class TUser {
      *   是否有效(0否,1是)
      */
     private Integer active;
+    
+    private PageParameter page;
 
     public Long getId() {
         return id;
@@ -130,4 +134,12 @@ public class TUser {
     public void setActive(Integer active) {
         this.active = active;
     }
+
+	public PageParameter getPage() {
+		return page;
+	}
+
+	public void setPage(PageParameter page) {
+		this.page = page;
+	}
 }

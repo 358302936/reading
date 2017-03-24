@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>  
 <beans xmlns="http://www.springframework.org/schema/beans"  
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-    xmlns:p="http://www.springframework.org/schema/p"    
+    xmlns:p="http://www.springframework.org/schema/p" 
+    xmlns:tx="http://www.springframework.org/schema/tx"   
     xsi:schemaLocation="http://www.springframework.org/schema/beans    
-                        http://www.springframework.org/schema/beans/spring-beans-4.3.xsd" >  
+                        http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+                        http://www.springframework.org/schema/tx
+				        http://www.springframework.org/schema/tx/spring-tx-4.3.xsd" >  
     
     <!-- 引入配置文件 -->  
     <bean id="propertyConfigurer"  
@@ -45,4 +48,24 @@
         <property name="basePackage" value="com.hx.reader.model.dao" />  
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>  
     </bean>  
+    
+     <!-- (事务管理)transaction manager, use JtaTransactionManager for global tx -->  
+    <bean id="transactionManager"  
+        class="org.springframework.jdbc.datasource.DataSourceTransactionManager">  
+        <property name="dataSource" ref="dataSource" />  
+    </bean>  
+       
+        	
+	<!-- 通知 -->	
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+	  <tx:attributes>
+	     <!-- 传播行为 -->
+	    <tx:method name="save*" propagation="REQUIRED"/>
+	    <tx:method name="insert*" propagation="REQUIRED"/>
+	    <tx:method name="delete*" propagation="REQUIRED"/>
+	    <tx:method name="update*" propagation="REQUIRED"/>
+	    <tx:method name="find*" propagation="SUPPORTS" read-only="true"/>
+	    <tx:method name="get*" propagation="SUPPORTS" read-only="true"/>
+	  </tx:attributes>
+	</tx:advice>
 </beans>  

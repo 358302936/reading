@@ -11,7 +11,7 @@
 						http://www.springframework.org/schema/context 
 						http://www.springframework.org/schema/context/spring-context-4.3.xsd">
 	
-	 <!-- 自动扫描 ，这里要把controler下面的 controller去除，他们是在spring3-servlet.xml中配置的，如果不去除会影响事务管理的。-->  
+	 <!-- 自动扫描 ，这里要把controler下面的 controller去除，他们是在spring-mvc.xml中配置的，如果不去除会影响事务管理的。-->  
     <context:component-scan base-package="com.hx.reader" >
        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />  
     </context:component-scan>

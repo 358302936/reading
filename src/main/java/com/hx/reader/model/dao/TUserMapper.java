@@ -24,5 +24,5 @@ public interface TUserMapper {
      * @return
      * @throws SQLException
      */
-    List<TUser> selectByCondition(TUser record) throws SQLException;
+    List<TUser> selectByConditionByPage(TUser record) throws SQLException;
 }
