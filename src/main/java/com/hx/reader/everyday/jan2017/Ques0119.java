@@ -31,16 +31,21 @@ public class Ques0119 {
 	}
 	
 	/**
-	 * �����򱨴���Ҫ���������⣺
-	 * 1������ֻ����ȷ������������Ԫ�������������������и��ӹ�ϵʱ����ת����Object���鲻��ȷ�������ľ���String�ĸ����ͻ������ͣ����б�����ת���쳣��
-	 * 2������toArray�ŵ�"T[] t = (T[])new Object[list.size()]",��δ�����ڱ��뱻���Ͳ�����toArray������������£�
-	 *  public static Object[] toArray(List list){
-		Object[] t = (Object[])new Object[list.size()];
-		for(int i=0,s=list.size();i<s;i++){
-			t[i] = list.get(i);
+	 * 一是数组只有在确定容器的所有元素类型与期望的类型有父子关系时才能转换，Object数组不能确保里面存的就是String的父类型或子类型，
+	 * 所以报类型转换异常；其次是在toArray方法的“T[] t = (T[]) new Object[list.size()]”这段代码会在编译其被类型擦除，toArray方法编译后如下：
+		public static Object[] toArray(List list){
+		    Object[] t = (Object[]) new Object[list.size()];    
+		    for (int i = 0, s = list.size(); i < s; i++) {
+		        t[i] = list.get(i);
+		    }    return t;
 		}
-		return t;
-	   }
-	   �����濴��toArray�������غ�����һ������ת����Object����ת������String���飬���Ա���ClassCastException�쳣
+		
+		public static void main(String[] args) {
+		    List<String> list = Arrays.asList("1", "2");    
+		    for (String str : (String[])toArray(list)) {
+		        System.out.println(str);
+		    }
+		}
+             从上面看出toArray方法返回后会进行一次类型转换，Object数组转换成了String数组，所以报了ClassCastException异常。
 	 */
 }
