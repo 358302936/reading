@@ -31,4 +31,12 @@ public interface IUserService {
      * @throws SQLException
      */
     List<TUser> selectByCondition(TUser record) throws SQLException;
+    
+    /**
+     * 根据账户查找用户信息
+     * @param account
+     * @return
+     * @throws SQLException
+     */
+    public TUser selectByAccount(String account) throws SQLException;
 }

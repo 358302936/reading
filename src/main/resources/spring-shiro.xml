@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:util="http://www.springframework.org/schema/util" 
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans 
+					       http://www.springframework.org/schema/beans/spring-beans.xsd
+					       http://www.springframework.org/schema/util 
+					       http://www.springframework.org/schema/util/spring-util.xsd">
+    <!-- shiro的主过滤器,beanId 和web.xml中配置的filter name需要保持一致 -->
+	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+		<property name="securityManager" ref="securityManager" />
+		<property name="loginUrl" value="/site/userLogin" />
+		<property name="successUrl" value="/site/home" />
+		<property name="unauthorizedUrl" value="/site/401" />
+		
+    
+		<property name="filters">  
+            <map>  
+                <entry key="authc">  
+                    <bean class="com.hx.reader.components.shiro.AuthcLevelFilter" />
+                </entry>    
+                <entry key="user">  
+                    <bean class="com.hx.reader.components.shiro.UserLevelFilter" />
+                </entry>
+                <entry key="roles">
+                   <bean class="com.hx.reader.components.shiro.RolesAuthorizeFilter" />
+                </entry>
+                <entry key="perms">
+                   <bean class="com.hx.reader.components.shiro.PermissionsAuthorizeFilter" />
+                </entry>
+                <entry key="ssl" value-ref="sslFilter"/>
+                <!--  
+                <entry key="kickout" value-ref="kickoutSessionControlFilter"/>  
+                -->
+            </map>  
+        </property>
+
+		<!--<property name="filterChainDefinitions" value="#{shiroManager.loadFilterChainDefinitions()}"/>-->
+		<property name="filterChainDefinitions" >
+			<value>
+				<!-- 需要认证  		
+				/order/paying = authc,roles[patient]
+				-->	
+				 <!-- 允许访问 -->
+				/** = anon
+			</value>
+		</property>
+	</bean>
+	
+	<bean id="authRealm" class="com.hx.reader.components.shiro.AuthRealm">
+		<!-- businessManager 用来实现用户名密码的查询 <property name="businessManager" ref="businessManager"/> 
+			<property name="cacheManager" ref="shiroCacheManager"/> -->
+		
+		<property name="credentialsMatcher">
+			<bean id="credentialsMatcher" class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
+				<property name="hashAlgorithmName" value="md5"/>
+				<property name="hashIterations" value="2"/>
+	       		<property name="storedCredentialsHexEncoded" value="true"/>
+			</bean>			
+		</property> 
+	</bean>
+	 <!-- 安全管理器 -->
+	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<property name="realms">
+			<list>
+				<ref bean="authRealm" />
+			</list>
+		</property>
+		<!--session管理 -->
+		<property name="sessionManager" ref="sessionManager" />		
+		<!-- cacheManager -->
+		<property name="cacheManager" ref="shiroCacheManager" />		
+		<!-- 记住我 -->
+		<property name="rememberMeManager" ref="rememberMeManager" />
+	</bean>
+	
+	<!-- 会话管理器 -->
+	<bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+		<!-- session存储的实现 -->
+		<property name="sessionDAO" ref="sessionDAO"/>
+		<!-- session的失效时长，单位毫秒 -->
+		<property name="globalSessionTimeout" value="1800000" />
+		<!-- sessionIdCookie的实现,用于重写覆盖容器默认的JSESSIONID -->
+		<property name="sessionIdCookie" ref="sharesession" />
+		<!-- 定时检查失效的session -->
+		<property name="sessionValidationSchedulerEnabled" value="true" />
+	</bean>
+	
+	<!-- sessionIdCookie的实现,用于重写覆盖容器默认的JSESSIONID -->
+	<bean id="sharesession" class="org.apache.shiro.web.servlet.SimpleCookie">
+		<!-- cookie的name,对应的默认是 JSESSIONID -->
+		<constructor-arg name="name" value="SJSESSIONID" />
+		<!-- jsessionId的path为 / 用于多个系统共享jsessionId -->
+		<property name="path" value="/" />
+	</bean>
+    
+	<!-- session存储的实现 -->
+	<bean id="sessionDAO" class="org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO" />
+	
+	<!-- 单机session -->
+	<!-- MemoryConstrainedCache 保存 session -->	
+	<bean id="shiroCacheManager" class="org.apache.shiro.cache.MemoryConstrainedCacheManager" /> 
+	
+	<!-- ehcache 保存 session -->	
+	<!--
+	<bean id="shiroCacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager" />
+	-->
+	<!-- session redis 集群 -->
+	<!-- 
+	<bean id="shiroCacheManager" class="org.springrain.frame.shiro.ShiroRedisCacheManager"> 
+		<property name="cached" ref="redisCached" /> 
+	</bean>
+	 -->
+
+	<!-- rememberMeManager管理器 -->
+	<bean id="rememberMeManager" class="org.apache.shiro.web.mgt.CookieRememberMeManager">
+		<property name="cookie" ref="rememberMeCookie" />
+	</bean>
+
+    <!-- remenberMe配置 -->
+   <bean id="rememberMeCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+       <constructor-arg value="rememberMe" />
+       <property name="httpOnly" value="true" />
+       <!-- 记住我cookie生效时间30天 2592000 -->
+       <property name="maxAge" value="2592000" />
+    </bean>
+    <!-- 控制账户同时登陆人数 
+    <bean id="kickoutSessionControlFilter"   class="com.yigu.ya.component.KickoutSessionControlFilter">  -->
+	    <!-- 使用cacheManager获取相应的cache来缓存用户登录的会话；用于保存用户—会话之间的关系的； 
+	    <property name="cacheManager" ref="shiroCacheManager"/>  -->
+	    <!-- 用于根据会话ID，获取会话进行踢出操作的；
+	    <property name="sessionManager" ref="sessionManager"/>   -->
+	    <!-- 是否踢出后来登录的，默认是false；即后者登录的用户踢出前者登录的用户
+	    <property name="kickoutAfter" value="false"/>  --> 
+	    <!-- 同一个用户最大的会话数，默认1；比如2的意思是同一个用户允许最多同时两个人登录；
+	    <property name="maxSession" value="1"/>  --> 
+	    <!-- 被踢出后重定向到的地址； 
+	    <property name="kickoutUrl" value="/login?kickout=1"/>  
+	    
+	</bean>-->
+</beans>

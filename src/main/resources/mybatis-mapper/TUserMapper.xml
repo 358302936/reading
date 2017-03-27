@@ -145,4 +145,10 @@
        </if>
      </where>
   </select>
+  
+  <!-- 根据账号查找用户 -->
+  <select id="selectByAccount" parameterType="String" resultType="com.hx.reader.model.pojo.TUser">
+  		select <include refid="Base_Column_List" /> from t_user
+  		where account = #{value}
+  </select>
 </mapper>

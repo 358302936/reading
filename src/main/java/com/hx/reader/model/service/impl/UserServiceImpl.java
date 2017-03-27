@@ -65,5 +65,15 @@ public class UserServiceImpl implements IUserService{
     	DynamicDataSourceHolder.setRouteKey("dataSource");
     	return this.userMapper.selectByConditionByPage(record);
     }
+    
+    /**
+     * 根据账户查找用户信息
+     * @param account
+     * @return
+     * @throws SQLException
+     */
+    public TUser selectByAccount(String account) throws SQLException{
+    	return this.userMapper.selectByAccount(account);
+    }
 
 }

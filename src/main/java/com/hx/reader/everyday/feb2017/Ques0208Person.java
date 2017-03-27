@@ -13,7 +13,7 @@ public class Ques0208Person {
 	
 	@Override
 	public boolean equals(Object o){
-		if(o != null && o instanceof Ques0208Person){
+		if(o instanceof Ques0208Person){
 			Ques0208Person person = (Ques0208Person)o;
 			return (id.equals(person.id)&&name.equals(person.name));
 		}
