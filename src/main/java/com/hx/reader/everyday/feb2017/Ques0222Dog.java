@@ -14,7 +14,7 @@ public class Ques0222Dog {
 
 	@Override
 	public String toString(){
-		return "��ţ�"+id+",��ɫ��"+color;
+		return "编号："+id+", 颜色："+color;
 	}
 	public String getId() {
 		return id;
