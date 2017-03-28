@@ -6,6 +6,7 @@ import java.util.List;
 
 public class Ques0117 {
 	
+	@SuppressWarnings({ "unchecked", "rawtypes", "unused" })
 	public static void main(String[] args) {
 		List list = Ques0117.asList(1,2,3.0);
 		for (int i = 0; i < list.size(); i++) {
@@ -19,6 +20,7 @@ public class Ques0117 {
 		List<Number> listN = Ques0117.<Number>asList(1,2,3.0);
 	}
 	
+	@SuppressWarnings("unchecked")
 	public static<T> List<T> asList(T... t){
 		List<T> list = new ArrayList<T>();
 		Collections.addAll(list, t);

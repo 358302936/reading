@@ -5,6 +5,7 @@ import java.util.List;
 
 public class Ques0112 {
 
+	@SuppressWarnings("unused")
 	public static void main(String[] args) {
 		Number[] numbers = new Integer[10];
 		numbers[0]=1;

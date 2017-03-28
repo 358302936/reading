@@ -10,6 +10,6 @@ public class Ques0314 {
 		}
 	}
 	
-	//���finally,
-	//finally�����е���䲻��try���Ƿ����������������ڿ��ƴ�try�����������ִ�С�
+	//finally,
+	//finally语句块中的语句不管try块是否正常结束，都会在控制从try块中跳出获得执行
 }

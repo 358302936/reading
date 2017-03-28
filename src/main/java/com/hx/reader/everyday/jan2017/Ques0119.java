@@ -6,6 +6,7 @@ import java.util.List;
 public class Ques0119 {
 
 	//ԭ����
+	@SuppressWarnings("unchecked")
 	public static <T> T[] toArray(List<T> list){
 		T[] t = (T[])new Object[list.size()];
 		for(int i=0,s=list.size();i<s;i++){

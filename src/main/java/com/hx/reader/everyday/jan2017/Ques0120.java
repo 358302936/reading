@@ -22,6 +22,7 @@ public class Ques0120 {
 		 */
 	}
 	
+	@SuppressWarnings("rawtypes")
 	public void listsize(){
 		int[] data = {1,2,3,4,5};
 		List list = Arrays.asList(data);
@@ -33,6 +34,7 @@ public class Ques0120 {
 	 */
 	}
 	
+	@SuppressWarnings("rawtypes")
 	public void listsize1(){
 		Integer[] data = {1,2,3,4,5};
 		List list = Arrays.asList(data);

@@ -11,6 +11,7 @@ public class Ques0213 {
 		System.out.println(num+10);
 	}
 	
+	@SuppressWarnings("unused")
 	public static void main(String[] args) {
 		Ques0213 q = new Ques0213(); 
 		

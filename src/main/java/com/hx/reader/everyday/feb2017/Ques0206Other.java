@@ -6,6 +6,7 @@ public class Ques0206Other {
 		System.out.println("2017年2月6日");
 	}
 	
+	@SuppressWarnings("unused")
 	private void method1(){
 		System.out.println("2017年2月6日");
 	}

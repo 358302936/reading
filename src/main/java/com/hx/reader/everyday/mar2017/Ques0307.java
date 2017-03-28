@@ -22,5 +22,7 @@ public class Ques0307 {
 		outerMethod();
 	}
     
-    //���ھ�̬�����ڲ����÷Ǿ�̬����������ͨ����ʵ�������á�
+    //想在静态方法内部调用非静态方法，必须通过 类实例来引用。在例子中，静态方法main()中调用内部类InnerClass的innerMethod()方法，
+    //就必须要获得内部类InnerClass的实例，而要想获得内部类InnerClass的实例，又要通过外部类OuterClass的实例来获得，
+    //所以只有通过new OuterClass().new InnerClass()表达式可正确实现对innerMethod()方法的调用。
 }
