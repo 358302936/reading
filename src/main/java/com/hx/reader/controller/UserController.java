@@ -93,4 +93,34 @@ public class UserController {
 		
 		return new ResponseEntity<ReturnData>(ret, HttpStatus.OK);
 	}
+	
+	/**
+	 * 用户登录
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/login",method=RequestMethod.POST,produces="application/json;charset=UTF-8")
+	public ResponseEntity<ReturnData> userLogin(HttpServletRequest request,HttpServletResponse response,
+			@RequestBody TUser record) throws Exception{
+		ReturnData ret  = null;
+		
+		if(record.getAccount() == null || "".equals(record.getAccount())){
+			throw new HttpException(400, "用户名不能为空！");
+		}
+		if(record.getPassword() == null || "".equals(record.getPassword())){
+			throw new HttpException(400, "密码不能为空！");
+		}
+		
+		//注册完成同时登陆
+		UsernamePasswordToken token = new UsernamePasswordToken(record.getAccount(),record.getPassword());
+		Subject currentUser = SecurityUtils.getSubject();
+		token.setRememberMe(true);
+		currentUser.login(token);
+		
+		ret = ReturnData.newSuccessReturnData();
+		ret.setMessage("登录成功！");
+		return new ResponseEntity<ReturnData>(ret, HttpStatus.OK);
+	}
 }

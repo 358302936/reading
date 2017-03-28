@@ -22,5 +22,7 @@
     <!-- 事务、切面aop --> 
     <import resource="spring-aop.xml"/>
     
+    <!-- shiro用户权限模块 -->
+    <import resource="spring-shiro.xml"/>
 </beans>
 
