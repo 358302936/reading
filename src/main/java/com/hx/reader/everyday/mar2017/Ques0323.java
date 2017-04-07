@@ -5,7 +5,7 @@ public class Ques0323 {
 	final String s = "outer class member variable";    
     
     public void Method() {
-        String s1 = "inner class variable";        
+        final String s1 = "inner class variable";        
         @SuppressWarnings("unused")
 		class InnerClass {            
             public void innerMethod() {                

@@ -40,7 +40,6 @@ public class RolesAuthorizeFilter extends RolesAuthorizationFilter {
     	httpRequest = WebUtils.toHttp(request); 
     	
     	for(int i=0,j=rolesArray.length;i<j;i++){
-    		System.out.println("查询用户角色："+rolesArray[i]);
     		if(subject.hasRole(rolesArray[i])){
     			return true;
     		}
