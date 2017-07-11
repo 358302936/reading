@@ -23,6 +23,7 @@ import com.hx.reader.components.ReturnData;
 import com.hx.reader.components.shiro.ShiroUtils;
 import com.hx.reader.model.pojo.TUser;
 import com.hx.reader.model.service.IUserService;
+import com.hx.reader.redis.RedisService;
 
 @Controller
 @RequestMapping(value="/user")
@@ -30,6 +31,8 @@ public class UserController {
 
 	@Resource
 	private IUserService userService;
+	@Resource
+	private RedisService redisService;
 	
 	/**
 	 * 添加用户
@@ -118,9 +121,29 @@ public class UserController {
 		Subject currentUser = SecurityUtils.getSubject();
 		token.setRememberMe(true);
 		currentUser.login(token);
+        		
+		currentUser.getSession().setAttribute("account", record.getAccount());
+		currentUser.getSession().setAttribute("id", currentUser.getPrincipal().toString());
+		
+//		redisService.rpush(currentUser.getSession().getId().toString(),record.getAccount(),currentUser.getPrincipal().toString());
+		
 		
 		ret = ReturnData.newSuccessReturnData();
 		ret.setMessage("登录成功！");
+		ret.setData(currentUser.getSession());
+		return new ResponseEntity<ReturnData>(ret, HttpStatus.OK);
+	}
+	
+	/**
+	 * 单点登录测试
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping(value="/sso",method=RequestMethod.GET,produces="application/json;charset=UTF-8")
+	public ResponseEntity<ReturnData> ssoTest(HttpServletRequest request,HttpServletResponse response){
+		ReturnData ret  = ReturnData.newSuccessReturnData();
+		ret.setMessage("通过拦截");
 		return new ResponseEntity<ReturnData>(ret, HttpStatus.OK);
 	}
 }

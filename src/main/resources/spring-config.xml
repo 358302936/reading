@@ -19,10 +19,14 @@
     <!-- 集成mybatis -->
     <import resource="spring-mybatis.xml"/>
     
+    <!-- 集成redis -->
+    <import resource="spring-redis.xml"/>
+    
     <!-- 事务、切面aop --> 
     <import resource="spring-aop.xml"/>
     
     <!-- shiro用户权限模块 -->
     <import resource="spring-shiro.xml"/>
+    
 </beans>
 

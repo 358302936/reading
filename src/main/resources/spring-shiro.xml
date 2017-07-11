@@ -29,6 +29,9 @@
                 <entry key="perms">
                    <bean class="com.hx.reader.components.shiro.PermissionsAuthorizeFilter" />
                 </entry>
+                <entry key="sso">
+                   <bean class="com.hx.reader.components.shiro.SSOAdviceFilter" />
+                </entry>
                 <!--<entry key="ssl" value-ref="sslFilter"/>
                   
                 <entry key="kickout" value-ref="kickoutSessionControlFilter"/>  
@@ -43,6 +46,7 @@
 				/order/paying = authc,roles[patient]
 				-->	
 				 <!-- 允许访问 -->
+			    /user/sso = sso
 				/** = anon
 			</value>
 		</property>
@@ -95,9 +99,13 @@
 		<property name="path" value="/" />
 	</bean>
     
-	<!-- session存储的实现 -->
+	<!-- session存储的实现 	
 	<bean id="sessionDAO" class="org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO" />
-	
+	 -->
+	 
+	<!-- 自定义session存储 --> 
+	<bean id="sessionDAO" class="com.hx.reader.redis.ShiroSessionDao" />
+	 
 	<!-- 单机session -->
 	<!-- MemoryConstrainedCache 保存 session -->	
 	<bean id="shiroCacheManager" class="org.apache.shiro.cache.MemoryConstrainedCacheManager" /> 

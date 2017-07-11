@@ -21,14 +21,28 @@ public class ThinkInJavaTask implements Runnable{
 	    }		
 	}
 	
+	public synchronized void helloA(){
+        System.out.println("hello");
+     }
+
+     public synchronized void helloB(){
+        System.out.println("hello B");
+        helloA();
+     }
+	
 	public static void main(String[] args) {
+//		for(int i=0;i<5;i++){
+//			ThinkInJavaTask task = new ThinkInJavaTask(5);		
+//			Thread t = new Thread(task);
+//			t.setPriority(i+1);
+//			t.start();
+//		}
+//		System.out.println("Waiting for Task");
+		
+		ThinkInJavaTask task = new ThinkInJavaTask();
 		for(int i=0;i<5;i++){
-			ThinkInJavaTask task = new ThinkInJavaTask(5);		
-			Thread t = new Thread(task);
-			t.setPriority(i+1);
-			t.start();
+			task.helloB();
 		}
-		System.out.println("Waiting for Task");
 	}
 
 }
