@@ -30,8 +30,9 @@ public class ShiroSessionDao extends CachingSessionDAO{
 	
 	@Override
 	protected void doUpdate(Session session) {
-		// TODO Auto-generated method stub
-		
+		Serializable sessionId = generateSessionId(session);  
+        assignSessionId(session, sessionId);
+        redisService.set(sessionId.toString(), SerializableUtils.serialize(session));
 	}
 
 	@Override

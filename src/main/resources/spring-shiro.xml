@@ -46,7 +46,7 @@
 				/order/paying = authc,roles[patient]
 				-->	
 				 <!-- 允许访问 -->
-			    /user/sso = sso
+			    /user/sso = user
 				/** = anon
 			</value>
 		</property>
@@ -66,11 +66,16 @@
 	</bean>
 	 <!-- 安全管理器 -->
 	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<!-- 注册多个realm 
 		<property name="realms">
 			<list>
 				<ref bean="authRealm" />
 			</list>
 		</property>
+		-->
+		<!-- 注册单个realm -->
+		<property name="Realm" ref="authRealm"></property>
+		
 		<!--session管理 -->
 		<property name="sessionManager" ref="sessionManager" />		
 		<!-- cacheManager -->

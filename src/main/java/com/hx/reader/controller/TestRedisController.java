@@ -69,10 +69,10 @@ public class TestRedisController {
         System.out.println(dbSizeEnd);
 
         //获得列表中的数据
-        List<String> list = redisService.lrange("list-key");
-        for(int i=0,j=list.size();i<j;i++){
-        	System.out.println(list.get(i));
-        }
+//        List<String> list = redisService.lrange("list-key");
+//        for(int i=0,j=list.size();i<j;i++){
+//        	System.out.println(list.get(i));
+//        }
         //清空reids所有数据
         //redisService.flushDB();
 		return new ResponseEntity<ReturnData>(ret,HttpStatus.OK);

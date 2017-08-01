@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.hx.reader.components.HttpException;
 import com.hx.reader.components.PageParameter;
 import com.hx.reader.components.ReturnData;
+import com.hx.reader.components.dataSource.DynamicDataSourceHolder;
 import com.hx.reader.components.shiro.ShiroUtils;
 import com.hx.reader.model.pojo.TUser;
 import com.hx.reader.model.service.IUserService;
@@ -33,6 +36,8 @@ public class UserController {
 	private IUserService userService;
 	@Resource
 	private RedisService redisService;
+	
+	private static final Logger log = LoggerFactory.getLogger(UserController.class);
 	
 	/**
 	 * 添加用户
@@ -92,6 +97,8 @@ public class UserController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new HttpException(500, e.getMessage());
+		} finally{
+			DynamicDataSourceHolder.removeRouteKey();
 		}
 		
 		return new ResponseEntity<ReturnData>(ret, HttpStatus.OK);
@@ -145,5 +152,9 @@ public class UserController {
 		ReturnData ret  = ReturnData.newSuccessReturnData();
 		ret.setMessage("通过拦截");
 		return new ResponseEntity<ReturnData>(ret, HttpStatus.OK);
+	}
+	
+	public static void main(String[] args) {
+		log.info("log4j测试");
 	}
 }

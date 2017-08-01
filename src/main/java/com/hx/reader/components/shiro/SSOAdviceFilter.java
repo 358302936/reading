@@ -66,7 +66,8 @@ public class SSOAdviceFilter extends AdviceFilter{
     	
     	try{
     		String sessionid = httpRequest.getSession().getId();    		
-    		List<String> info = redisService.lrange(sessionid);
+//    		List<String> info = redisService.lrange(sessionid);
+    		String info = redisService.get(sessionid);
     		if(info.isEmpty()){
     			out = httpResponse.getWriter(); 
     			ReturnData ret = ReturnData.newRedirectReturnData();
@@ -77,9 +78,9 @@ public class SSOAdviceFilter extends AdviceFilter{
     			out.append(responseJSONObject.toString());
     			status = false;
     		}else{
-    			for(int i=0,j=info.size();i<j;i++){
-    				System.out.println(info.get(i));
-    			}
+//    			for(int i=0,j=info.size();i<j;i++){
+//    			}
+				System.out.println(info);
     			
     			System.out.println("当前session:"+sessionid);
     			status = true;
