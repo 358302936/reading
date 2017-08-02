@@ -47,6 +47,7 @@
 				-->	
 				 <!-- 允许访问 -->
 			    /user/sso = user
+			    /user/query = user
 				/** = anon
 			</value>
 		</property>
@@ -99,32 +100,32 @@
 	<!-- sessionIdCookie的实现,用于重写覆盖容器默认的JSESSIONID -->
 	<bean id="sharesession" class="org.apache.shiro.web.servlet.SimpleCookie">
 		<!-- cookie的name,对应的默认是 JSESSIONID -->
-		<constructor-arg name="name" value="SJSESSIONID" />
+		<constructor-arg name="name" value="JSESSIONID" />
 		<!-- jsessionId的path为 / 用于多个系统共享jsessionId -->
 		<property name="path" value="/" />
 	</bean>
     
-	<!-- session存储的实现 	
+	<!-- session存储的实现 	 
 	<bean id="sessionDAO" class="org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO" />
-	 -->
+	-->
 	 
-	<!-- 自定义session存储 --> 
-	<bean id="sessionDAO" class="com.hx.reader.redis.ShiroSessionDao" />
-	 
+	<!-- 自定义session存储 -->
+	<bean id="sessionDAO" class="com.hx.reader.components.shiro.RedisShiroSessionDao" />
+	  
 	<!-- 单机session -->
-	<!-- MemoryConstrainedCache 保存 session -->	
+	<!-- MemoryConstrainedCache 保存 session 
 	<bean id="shiroCacheManager" class="org.apache.shiro.cache.MemoryConstrainedCacheManager" /> 
+	-->	
 	
 	<!-- ehcache 保存 session -->	
 	<!--
 	<bean id="shiroCacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager" />
 	-->
 	<!-- session redis 集群 -->
-	<!-- 
-	<bean id="shiroCacheManager" class="org.springrain.frame.shiro.ShiroRedisCacheManager"> 
+	<bean id="shiroCacheManager" class="com.hx.reader.components.shiro.ShiroRedisCacheManager"> 
 		<property name="cached" ref="redisCached" /> 
 	</bean>
-	 -->
+	 
 
 	<!-- rememberMeManager管理器 -->
 	<bean id="rememberMeManager" class="org.apache.shiro.web.mgt.CookieRememberMeManager">

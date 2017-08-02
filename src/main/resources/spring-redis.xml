@@ -12,7 +12,7 @@
         class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">  
         <property name="location" value="classpath:jdbc.properties" />  
     </bean>   
-	 
+	<!--  
 	<bean name="redisService" class="com.hx.reader.redis.RedisService">
 	  	<property name="jedisConnectionFactory" ref="jedisConnectionFactory"></property>
 	</bean>
@@ -22,5 +22,28 @@
         <property name="port" value="${redis.port}"></property>
         <property name="password" value="${redis.pwd}"></property>
     </bean>  
+    --> 
+    <!-- 另外一种连接redis方法 -->
+    <bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
+		<property name="connectionFactory" ref="redisConnectionFactory" />
+	</bean>
+
+	<bean id="redisCached" class="com.hx.reader.redis.RedisCachedImpl">
+		<property name="redisTemplate" ref="redisTemplate" />
+		<property name="expire" value="${cache.timeout}" />
+	</bean>
+
+	<bean id="redisConnectionFactory"
+		class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+		<property name="hostName" value="${redis.host}" />
+		<property name="port" value="${redis.port}" />
+		<property name="password" value="${redis.pwd}"></property>
+		<property name="poolConfig" ref="jedisPoolConfig" />
+	</bean>
+
+	<bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+		<property name="maxTotal" value="${redis.pool.maxTotal}" />
+		<property name="maxIdle" value="${redis.pool.maxIdle}" />
+	</bean>
     
 </beans>

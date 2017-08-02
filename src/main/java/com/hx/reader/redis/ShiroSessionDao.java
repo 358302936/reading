@@ -50,6 +50,7 @@ public class ShiroSessionDao extends CachingSessionDAO{
 
 	@Override
 	protected Session doReadSession(Serializable sessionId) {
+		System.out.println(sessionId.toString());
 		return SerializableUtils.deserialize(redisService.get(sessionId.toString()));
 	}
 
