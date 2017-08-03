@@ -30,6 +30,15 @@
         <property name="minIdle" value="${db.minPoolSize}"></property>  
         <!-- 获取连接最大等待时间 -->  
         <property name="maxWait" value="${db.maxIdleTime}"></property>  
+        
+        <!-- 用来检测连接是否有效的sql，要求是一个查询语句。如果validationQuery为null，testOnBorrow、testOnReturn、testWhileIdle都不会其作用。 -->
+        <property name="validationQuery" value="SELECT 'x'" />
+        <!-- 建议配置为true，不影响性能，并且保证安全性。申请连接的时候检测，如果空闲时间大于timeBetweenEvictionRunsMillis，执行validationQuery检测连接是否有效。 -->
+		<property name="testWhileIdle" value="true" />
+		<!-- 申请连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能。 -->
+		<property name="testOnBorrow" value="false" />
+		<!-- 归还连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能 -->
+		<property name="testOnReturn" value="false" />
     </bean>
     
     <bean id="dataSource1" class="org.apache.commons.dbcp.BasicDataSource"  
@@ -48,6 +57,15 @@
         <property name="minIdle" value="${db.minPoolSize}"></property>  
         <!-- 获取连接最大等待时间 -->  
         <property name="maxWait" value="${db.maxIdleTime}"></property>  
+        
+        <!-- 用来检测连接是否有效的sql，要求是一个查询语句。如果validationQuery为null，testOnBorrow、testOnReturn、testWhileIdle都不会其作用。 -->
+        <property name="validationQuery" value="SELECT 'x'" />
+        <!-- 建议配置为true，不影响性能，并且保证安全性。申请连接的时候检测，如果空闲时间大于timeBetweenEvictionRunsMillis，执行validationQuery检测连接是否有效。 -->
+		<property name="testWhileIdle" value="true" />
+		<!-- 申请连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能。 -->
+		<property name="testOnBorrow" value="false" />
+		<!-- 归还连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能 -->
+		<property name="testOnReturn" value="false" />
     </bean>    
   
      <!-- 配置多数据源映射 -->

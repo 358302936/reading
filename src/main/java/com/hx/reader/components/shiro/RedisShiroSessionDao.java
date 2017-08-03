@@ -22,7 +22,7 @@ import com.hx.reader.redis.ICached;
  */
 public class RedisShiroSessionDao extends AbstractSessionDAO {
 	public Logger logger = LoggerFactory.getLogger(getClass());
-//	private String sessionprefix="";
+	private String sessionprefix="ss-";
 	public RedisShiroSessionDao (){
 	}
 	@Resource
@@ -53,8 +53,7 @@ public class RedisShiroSessionDao extends AbstractSessionDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public Collection<Session> getActiveSessions() {
-//		String keys=sessionprefix+"*";
-		String keys="*";
+		String keys=sessionprefix+"*";
 		List<Session> list=null;
 		try {
 		 list=	(List<Session>) cached.getKeys(keys.getBytes());
@@ -68,7 +67,7 @@ public class RedisShiroSessionDao extends AbstractSessionDAO {
 	protected Serializable doCreate(Session session) {
 		Serializable sessionId=session.getId();
 		try {
-			super.assignSessionId(session,super.generateSessionId(session));
+			super.assignSessionId(session,sessionprefix+super.generateSessionId(session));
 			update(session);
 			sessionId=session.getId();
 		} catch (Exception e) {
@@ -99,12 +98,12 @@ public class RedisShiroSessionDao extends AbstractSessionDAO {
 		this.cached = cached;
 	}
 
-//	public String getSessionprefix() {
-//		return sessionprefix;
-//	}
-//
-//	public void setSessionprefix(String sessionprefix) {
-//		this.sessionprefix = sessionprefix;
-//	}
+	public String getSessionprefix() {
+		return sessionprefix;
+	}
+
+	public void setSessionprefix(String sessionprefix) {
+		this.sessionprefix = sessionprefix;
+	}
 	
 }
