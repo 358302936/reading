@@ -25,7 +25,7 @@
         <!-- 连接池最大数量 -->  
         <property name="maxActive" value="${db.maxPoolSize}"></property>  
         <!-- 连接池最大空闲 -->  
-        <property name="maxIdle" value="${db.minPoolSize}"></property>  
+        <property name="maxIdle" value="${db.maxPoolSize}"></property>  
         <!-- 连接池最小空闲 -->  
         <property name="minIdle" value="${db.minPoolSize}"></property>  
         <!-- 获取连接最大等待时间 -->  
@@ -39,6 +39,10 @@
 		<property name="testOnBorrow" value="false" />
 		<!-- 归还连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能 -->
 		<property name="testOnReturn" value="false" />
+		
+		<!-- 隔3600秒清理超过最小时间的空闲连接，并重新创建一个新连接 -->
+        <property name="timeBetweenEvictionRunsMillis" value="30000" />
+        <property name="minEvictableIdleTimeMillis" value="1800000" />  
     </bean>
     
     <bean id="dataSource1" class="org.apache.commons.dbcp.BasicDataSource"  
@@ -52,7 +56,7 @@
         <!-- 连接池最大数量 -->  
         <property name="maxActive" value="${db.maxPoolSize}"></property>  
         <!-- 连接池最大空闲 -->  
-        <property name="maxIdle" value="${db.minPoolSize}"></property>  
+        <property name="maxIdle" value="${db.maxPoolSize}"></property>  
         <!-- 连接池最小空闲 -->  
         <property name="minIdle" value="${db.minPoolSize}"></property>  
         <!-- 获取连接最大等待时间 -->  
@@ -66,6 +70,11 @@
 		<property name="testOnBorrow" value="false" />
 		<!-- 归还连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能 -->
 		<property name="testOnReturn" value="false" />
+		
+		<!-- 隔3600秒清理超过最小时间的空闲连接，并重新创建一个新连接 -->
+        <property name="timeBetweenEvictionRunsMillis" value="30000" />
+        <property name="minEvictableIdleTimeMillis" value="1800000" />  
+				
     </bean>    
   
      <!-- 配置多数据源映射 -->

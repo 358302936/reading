@@ -62,7 +62,7 @@ public class UserServiceImpl implements IUserService{
      * @throws SQLException
      */
     public List<TUser> selectByCondition(TUser record) throws SQLException{
-    	DynamicDataSourceHolder.setRouteKey("dataSource");
+    	DynamicDataSourceHolder.setRouteKey("dataSource1");
     	return this.userMapper.selectByConditionByPage(record);
     }
     
