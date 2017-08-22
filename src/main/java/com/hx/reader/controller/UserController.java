@@ -13,23 +13,24 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.hx.reader.components.HttpException;
 import com.hx.reader.components.PageParameter;
 import com.hx.reader.components.ReturnData;
+import com.hx.reader.components.apiVersion.ApiVersion;
 import com.hx.reader.components.dataSource.DynamicDataSourceHolder;
 import com.hx.reader.components.shiro.ShiroUtils;
 import com.hx.reader.model.pojo.TUser;
 import com.hx.reader.model.service.IUserService;
 import com.hx.reader.redis.RedisService;
 
-@Controller
-@RequestMapping(value="/user")
+@RestController
+@RequestMapping(value="/{version}/user/")
 public class UserController {
 
 	@Resource
@@ -81,6 +82,7 @@ public class UserController {
 	 * @param response
 	 * @return
 	 */
+	@ApiVersion(1)
 	@RequestMapping(value="/query",method=RequestMethod.GET,produces="application/json;charset=UTF-8")
 	public ResponseEntity<ReturnData> queryUser(HttpServletRequest request,HttpServletResponse response,
 			@RequestParam String name){
@@ -94,6 +96,39 @@ public class UserController {
 			List<TUser> list = this.userService.selectByCondition(u);
 			ret = ReturnData.newSuccessReturnData();
 			ret.setData(list);
+			ret.setMessage("v1");
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new HttpException(500, e.getMessage());
+		} finally{
+			DynamicDataSourceHolder.removeRouteKey();
+		}
+		
+		return new ResponseEntity<ReturnData>(ret, HttpStatus.OK);
+	}
+	
+	
+	/**
+	 * 查询用户
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@ApiVersion(2)
+	@RequestMapping(value="/query",method=RequestMethod.GET,produces="application/json;charset=UTF-8")
+	public ResponseEntity<ReturnData> queryUser1(HttpServletRequest request,HttpServletResponse response,
+			@RequestParam String name){
+		ReturnData ret  = null;
+		
+		try {
+			PageParameter page = new PageParameter();
+			TUser u = new TUser();
+			u.setName(name);
+			u.setPage(page);
+			List<TUser> list = this.userService.selectByCondition(u);
+			ret = ReturnData.newSuccessReturnData();
+			ret.setData(list);
+			ret.setMessage("v2");
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new HttpException(500, e.getMessage());

@@ -14,6 +14,10 @@ public class Ques0207 {
 	private int b=1;
 	private int a=b;
 	public static void main(String[] args) {
+		String[] ab ="1".split(",");
+		System.out.println(ab[0]+"---"+ab.length);
 		System.out.println((new Ques0207()).a);
 	}
+	
+	
 }
