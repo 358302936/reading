@@ -5,6 +5,7 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -13,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -46,32 +48,40 @@ public class UserController {
 	 * @param response
 	 * @return
 	 */
+	@ApiVersion(1)
 	@RequestMapping(value="/registerUser",method=RequestMethod.POST,produces="application/json;charset=UTF-8")	
 	public ResponseEntity<ReturnData> addUser(HttpServletRequest request,HttpServletResponse response,
-			@RequestBody TUser record){
+			@RequestBody @Valid TUser record,BindingResult result){
 		ReturnData ret  = null;
 		String unencryptedPwd = "123456";//默认密码
-		
-		try {
-			if(record.getPassword() != null && !record.getPassword().equals("")){
-				unencryptedPwd = record.getPassword();
-				record.setPassword(ShiroUtils.encryptStr(record.getPassword()));
-			}else{
-				record.setPassword(ShiroUtils.encryptStr("123456"));
-			}
-			this.userService.insert(record);
-			
-			//注册完成同时登陆
-    		UsernamePasswordToken token = new UsernamePasswordToken(record.getAccount(),unencryptedPwd);
-			Subject currentUser = SecurityUtils.getSubject();
-			token.setRememberMe(true);
-			currentUser.login(token);
-			
+		if(result.hasErrors()){
+			log.info(result.getFieldError().getDefaultMessage());
 			ret = ReturnData.newSuccessReturnData();
-			ret.setMessage("用户注册成功！");
-		} catch (Exception e) {
-			throw new HttpException(500, e.getMessage());
+			ret.setMessage(result.getFieldError().getDefaultMessage());
+		}else{
+			
+			try {
+				if(record.getPassword() != null && !record.getPassword().equals("")){
+					unencryptedPwd = record.getPassword();
+					record.setPassword(ShiroUtils.encryptStr(record.getPassword()));
+				}else{
+					record.setPassword(ShiroUtils.encryptStr("123456"));
+				}
+				this.userService.insert(record);
+				
+				//注册完成同时登陆
+				UsernamePasswordToken token = new UsernamePasswordToken(record.getAccount(),unencryptedPwd);
+				Subject currentUser = SecurityUtils.getSubject();
+				token.setRememberMe(true);
+				currentUser.login(token);
+				
+				ret = ReturnData.newSuccessReturnData();
+				ret.setMessage("用户注册成功！");
+			} catch (Exception e) {
+				throw new HttpException(500, e.getMessage());
+			}
 		}
+		
 		
 		return new ResponseEntity<ReturnData>(ret, HttpStatus.OK);
 	}
@@ -182,14 +192,18 @@ public class UserController {
 	 * @param response
 	 * @return
 	 */
+	@ApiVersion(1)
 	@RequestMapping(value="/sso",method=RequestMethod.GET,produces="application/json;charset=UTF-8")
 	public ResponseEntity<ReturnData> ssoTest(HttpServletRequest request,HttpServletResponse response){
+		
 		ReturnData ret  = ReturnData.newSuccessReturnData();
-		ret.setMessage("通过拦截");
+    	TUser record = new TUser();
+    	log.info("开始时间："+String.valueOf(System.currentTimeMillis()));
+    	this.userService.insert(record);
+    	log.info("结束时间："+String.valueOf(System.currentTimeMillis()));
 		return new ResponseEntity<ReturnData>(ret, HttpStatus.OK);
 	}
 	
-	public static void main(String[] args) {
-		log.info("log4j测试");
-	}
+	
+	
 }

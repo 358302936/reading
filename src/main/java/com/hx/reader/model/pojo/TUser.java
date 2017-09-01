@@ -1,6 +1,7 @@
 package com.hx.reader.model.pojo;
 
 import com.hx.reader.components.PageParameter;
+import com.hx.reader.components.validation.MinAndMaxValue;
 
 public class TUser {
     /**
@@ -54,6 +55,12 @@ public class TUser {
     private Integer active;
     
     private PageParameter page;
+    
+    /**
+     * 年龄
+     */
+    @MinAndMaxValue(minValue=0,maxValue=100,message="年龄范围应在0-100")
+    private Integer age;
 
     public Long getId() {
         return id;
@@ -141,5 +148,13 @@ public class TUser {
 
 	public void setPage(PageParameter page) {
 		this.page = page;
+	}
+
+	public Integer getAge() {
+		return age;
+	}
+
+	public void setAge(Integer age) {
+		this.age = age;
 	}
 }

@@ -1,5 +1,8 @@
 package com.hx.reader.model.pojo;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Size;
+
 public class TOrg {
     /**
      *   编号

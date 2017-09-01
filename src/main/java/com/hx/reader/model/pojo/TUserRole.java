@@ -1,5 +1,7 @@
 package com.hx.reader.model.pojo;
 
+import org.springframework.validation.*;
+
 public class TUserRole {
     /**
      *   编号

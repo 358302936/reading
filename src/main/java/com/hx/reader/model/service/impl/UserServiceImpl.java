@@ -3,12 +3,17 @@ package com.hx.reader.model.service.impl;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
 import com.hx.reader.components.dataSource.DynamicDataSourceHolder;
+import com.hx.reader.everyday.august2017.RandomValue;
 import com.hx.reader.model.dao.TUserMapper;
 import com.hx.reader.model.pojo.TUser;
 import com.hx.reader.model.service.IUserService;
@@ -27,8 +32,43 @@ public class UserServiceImpl implements IUserService{
 
 	@Override
 	public int insert(TUser record) {
-		this.userMapper.insert(record);
+		long starttime = System.currentTimeMillis();
+		// 创建可以容纳3个线程的线程池  
+        ExecutorService fixedThreadPool = Executors.newFixedThreadPool(100);
+        
+        for(int i=0;i<10;i++){
+        	final UserServiceImpl userServiceImpl=this;
+        	fixedThreadPool.execute(new Runnable() {			
+        		@SuppressWarnings("unchecked")
+				@Override
+        		public void run() {
+        			Map<String,Object> newUser = RandomValue.getAddress();
+        			TUser record = new TUser();
+        			record.setEmail(newUser.get("email").toString());
+        			record.setAccount(newUser.get("tel").toString());
+        			record.setName(newUser.get("name").toString());
+        			record.setSex(newUser.get("sex").toString());
+        			record.setMobile(newUser.get("tel").toString());
+        			userServiceImpl.insertUser(record);				
+        		}
+        	});
+        }
+        //关闭线程
+        fixedThreadPool.shutdown();
+        //等待子线程结束
+        try {
+			fixedThreadPool.awaitTermination(Long.MAX_VALUE, TimeUnit.DAYS);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        long endtime = System.currentTimeMillis();
+        System.out.println("消耗时间："+(endtime-starttime));
 		return 0;
+	}
+	
+	public void insertUser(TUser record){
+		this.userMapper.insert(record);
 	}
 
 	@Override
@@ -75,5 +115,6 @@ public class UserServiceImpl implements IUserService{
     public TUser selectByAccount(String account) throws SQLException{
     	return this.userMapper.selectByAccount(account);
     }
+    
 
 }
