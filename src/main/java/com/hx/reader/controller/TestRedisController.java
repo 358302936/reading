@@ -1,5 +1,8 @@
 package com.hx.reader.controller;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -88,6 +91,8 @@ public class TestRedisController {
 //        }
         //清空reids所有数据
         //redisService.flushDB();
+		
+		List list = new LinkedList<>();
 		return new ResponseEntity<ReturnData>(ret,HttpStatus.OK);
 	}
 }

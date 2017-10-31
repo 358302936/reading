@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.hx.reader.components.ReturnData;
 import com.hx.reader.components.upload.UploadFileUtils;
@@ -29,6 +28,14 @@ public class FileUploadController {
 			ret.setMessage("文件信息");
 			ret.setData(files.get(0));
 		}
+		return new ResponseEntity<ReturnData>(ret, HttpStatus.OK);
+	}
+	
+	
+	
+	@RequestMapping(value="/testEhcache",method=RequestMethod.GET,produces="application/json;charset=UTF-8")
+	public ResponseEntity<ReturnData> testEhcache(HttpServletRequest request,HttpServletResponse response){
+		ReturnData ret = ReturnData.newSuccessReturnData();
 		return new ResponseEntity<ReturnData>(ret, HttpStatus.OK);
 	}
 }

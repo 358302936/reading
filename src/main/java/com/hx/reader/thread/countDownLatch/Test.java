@@ -5,7 +5,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class Test {
-	private static final int ThreadNum = 10;
+	private static final int ThreadNum = 50;
 
     public static void main(String[] args)  {
 

@@ -141,7 +141,7 @@
      select <include refid="Base_Column_List" /> from t_user
      <where>
        <if test="name != null">
-          name like '%${name}%'
+          name like '${name}%'
        </if>
      </where>
   </select>

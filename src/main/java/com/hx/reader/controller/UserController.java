@@ -1,12 +1,17 @@
 package com.hx.reader.controller;
 
+import java.rmi.RemoteException;
 import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import javax.xml.rpc.ServiceException;
 
+import org.apache.axis.client.Call;
+import org.apache.axis.client.Service;
+import org.apache.http.client.HttpClient;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
@@ -33,7 +38,7 @@ import com.hx.reader.redis.RedisService;
 
 @RestController
 @RequestMapping(value="/{version}/user/")
-public class UserController {
+public class UserController{
 
 	@Resource
 	private IUserService userService;
@@ -156,6 +161,7 @@ public class UserController {
 	 * @return
 	 * @throws Exception
 	 */
+	@ApiVersion(1)
 	@RequestMapping(value="/login",method=RequestMethod.POST,produces="application/json;charset=UTF-8")
 	public ResponseEntity<ReturnData> userLogin(HttpServletRequest request,HttpServletResponse response,
 			@RequestBody TUser record) throws Exception{
@@ -204,6 +210,32 @@ public class UserController {
 		return new ResponseEntity<ReturnData>(ret, HttpStatus.OK);
 	}
 	
+	@ApiVersion(1)
+	@RequestMapping(value="/ws",method=RequestMethod.GET,produces="application/json;charset=UTF-8")
+	public ResponseEntity<ReturnData> webService(HttpServletRequest request,HttpServletResponse response){		
+		ReturnData ret  = ReturnData.newSuccessReturnData();
+		String endpoint = "http://192.168.1.254/WebService/Keson_Interface.asmx?wsdl";
+		// 直接引用远程的wsdl文件        
+        Service service = new Service();  
+		try {
+			Call call = (Call)service.createCall();
+			call.setTargetEndpointAddress(endpoint);  
+	        call.setOperationName("Keson_GetDoctorList");// WSDL里面描述的接口名称  
+	        call.addParameter("ReturnType",  
+	                org.apache.axis.encoding.XMLType.XSD_INT,  
+	                javax.xml.rpc.ParameterMode.IN);// 接口的参数  
+	        call.setReturnType(org.apache.axis.encoding.XMLType.XSD_STRING);// 设置返回类型  
+	        int temp = 2;  
+	        String result = (String) call.invoke(new Object[] { temp });  
+	        // 给方法传递参数，并且调用方法  
+	        System.out.println("result is " + result);  
+		} catch (ServiceException | RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
+		return new ResponseEntity<ReturnData>(ret, HttpStatus.OK);
+	}
 	
 	
 }

@@ -227,6 +227,32 @@
        <artifactId>hibernate-validator</artifactId>
        <version>5.2.2.Final</version>
      </dependency>
+     
+     <!-- https://mvnrepository.com/artifact/org.apache.axis/axis -->
+	<dependency>
+	    <groupId>org.apache.axis</groupId>
+	    <artifactId>axis</artifactId>
+	    <version>1.4</version>
+	</dependency>
+     
+    <!-- https://mvnrepository.com/artifact/axis/axis-jaxrpc -->
+	<dependency>
+	    <groupId>axis</groupId>
+	    <artifactId>axis-jaxrpc</artifactId>
+	    <version>1.4</version>
+	</dependency>
+    
+    <!-- ehcache缓存 --> 
+    <dependency>
+      <groupId>org.ehcache</groupId>
+      <artifactId>ehcache</artifactId>
+      <version>3.4.0</version>
+    </dependency> 
+    <dependency>
+      <groupId>javax.cache</groupId>
+      <artifactId>cache-api</artifactId>
+      <version>1.0.0</version>
+    </dependency> 
   </dependencies>
   
   <build>

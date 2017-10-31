@@ -36,7 +36,7 @@ public class UserServiceImpl implements IUserService{
 		// 创建可以容纳3个线程的线程池  
         ExecutorService fixedThreadPool = Executors.newFixedThreadPool(100);
         
-        for(int i=0;i<10;i++){
+        for(int i=0;i<1000000;i++){
         	final UserServiceImpl userServiceImpl=this;
         	fixedThreadPool.execute(new Runnable() {			
         		@SuppressWarnings("unchecked")
@@ -102,7 +102,7 @@ public class UserServiceImpl implements IUserService{
      * @throws SQLException
      */
     public List<TUser> selectByCondition(TUser record) throws SQLException{
-    	DynamicDataSourceHolder.setRouteKey("dataSource1");
+//    	DynamicDataSourceHolder.setRouteKey("dataSource1");
     	return this.userMapper.selectByConditionByPage(record);
     }
     

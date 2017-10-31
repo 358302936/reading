@@ -14,7 +14,10 @@ public class WebConfig extends WebMvcConfigurationSupport{
     public RequestMappingHandlerMapping requestMappingHandlerMapping() {  
         RequestMappingHandlerMapping handlerMapping = new CustomRequestMappingHandlerMapping();  
         handlerMapping.setOrder(0);  
-        handlerMapping.setInterceptors(getInterceptors());  
+        handlerMapping.setInterceptors(getInterceptors()); 
+        Object[] objs = getInterceptors();
+        System.out.println(objs.length);
+        System.out.println(getInterceptors().toString());
         return handlerMapping;  
     }  
 }

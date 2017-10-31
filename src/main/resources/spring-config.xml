@@ -28,8 +28,8 @@
     <!-- shiro用户权限模块 -->
     <import resource="spring-shiro.xml"/>
     
-    <!-- 测试bean -->
+    <!-- 测试bean 
     <import resource="beans.xml"/>
-    
+    -->
 </beans>
 
