@@ -1,10 +1,16 @@
 package com.hx.reader.components.upload;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.Rectangle;
+
+import com.sun.image.codec.jpeg.JPEGCodec;
+import com.sun.image.codec.jpeg.JPEGEncodeParam;
+import com.sun.image.codec.jpeg.JPEGImageEncoder;
+
+import javax.imageio.ImageIO;
+import javax.imageio.ImageReadParam;
+import javax.imageio.ImageReader;
+import javax.imageio.stream.ImageInputStream;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.ConvolveOp;
 import java.awt.image.Kernel;
@@ -13,17 +19,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Iterator;
-
-import javax.imageio.ImageIO;
-import javax.imageio.ImageReadParam;
-import javax.imageio.ImageReader;
-import javax.imageio.stream.ImageInputStream;
-import javax.swing.ImageIcon;
-
-import com.sun.image.codec.jpeg.JPEGCodec;
-import com.sun.image.codec.jpeg.JPEGEncodeParam;
-import com.sun.image.codec.jpeg.JPEGImageEncoder;
-
 
 public class ImageUtil {
 	/**
@@ -83,8 +78,6 @@ public class ImageUtil {
 	 *            :输出的压缩图片的路径
 	 * @param ratio
 	 *            :压缩后的图片尺寸比例
-	 * @param per
-	 *            :百分比
 	 */
 	public static void resize(String srcImgPath, String outImgPath, float ratio) {
 		resize(srcImgPath, outImgPath, ratio, 1F);
@@ -99,8 +92,6 @@ public class ImageUtil {
 	 *            :输出的压缩图片的路径
 	 * @param maxLength
 	 *            :长或者宽的最大值
-	 * @param per
-	 *            :图片质量
 	 */
 	public static void resize(String srcImgPath, String outImgPath, int maxLength) {
 		resize(srcImgPath, outImgPath, maxLength, 1F);
@@ -403,7 +394,7 @@ public class ImageUtil {
             throw new IllegalArgumentException(  
                     "Quality has to be between 0 and 1");  
         }  
-        ImageIcon ii = new ImageIcon(originalFile.getCanonicalPath());  
+        ImageIcon ii = new ImageIcon(originalFile.getCanonicalPath());
         Image i = ii.getImage();  
         Image resizedImage = null;  
    
@@ -440,8 +431,8 @@ public class ImageUtil {
         float softenFactor = 0.05f;  
         float[] softenArray = { 0, softenFactor, 0, softenFactor,  
                 1 - (softenFactor * 4), softenFactor, 0, softenFactor, 0 };  
-        Kernel kernel = new Kernel(3, 3, softenArray);  
-        ConvolveOp cOp = new ConvolveOp(kernel, ConvolveOp.EDGE_NO_OP, null);  
+        Kernel kernel = new Kernel(3, 3, softenArray);
+        ConvolveOp cOp = new ConvolveOp(kernel, ConvolveOp.EDGE_NO_OP, null);
         bufferedImage = cOp.filter(bufferedImage, null);  
    
         // Write the jpeg to a file.  
