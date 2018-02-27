@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	   xmlns:util="http://www.springframework.org/schema/util" 
 	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	   xsi:schemaLocation="http://www.springframework.org/schema/beans 
-					       http://www.springframework.org/schema/beans/spring-beans.xsd
-					       http://www.springframework.org/schema/util 
-					       http://www.springframework.org/schema/util/spring-util.xsd">
+					       http://www.springframework.org/schema/beans/spring-beans.xsd">
 					       
     <!-- shiro的主过滤器,beanId 和web.xml中配置的filter name需要保持一致 -->
 	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">

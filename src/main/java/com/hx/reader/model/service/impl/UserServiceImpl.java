@@ -4,15 +4,13 @@ package com.hx.reader.model.service.impl;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
-import javax.annotation.Resource;
 
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.hx.reader.components.dataSource.DynamicDataSourceHolder;
 import com.hx.reader.everyday.august2017.RandomValue;
 import com.hx.reader.model.dao.TUserMapper;
 import com.hx.reader.model.pojo.TUser;
@@ -21,8 +19,8 @@ import com.hx.reader.model.service.IUserService;
 @Service("userService")
 public class UserServiceImpl implements IUserService{
 
-	@Resource
-	private TUserMapper userMapper;
+	@Autowired
+	private TUserMapper tUserMapper;
 	
 	@Override
 	public int deleteByPrimaryKey(Long id) {
@@ -35,8 +33,9 @@ public class UserServiceImpl implements IUserService{
 		long starttime = System.currentTimeMillis();
 		// 创建可以容纳3个线程的线程池  
         ExecutorService fixedThreadPool = Executors.newFixedThreadPool(100);
-        
-        for(int i=0;i<1000000;i++){
+
+
+		for(int i=0;i<1000000;i++){
         	final UserServiceImpl userServiceImpl=this;
         	fixedThreadPool.execute(new Runnable() {			
         		@SuppressWarnings("unchecked")
@@ -68,7 +67,7 @@ public class UserServiceImpl implements IUserService{
 	}
 	
 	public void insertUser(TUser record){
-		this.userMapper.insert(record);
+		this.tUserMapper.insert(record);
 	}
 
 	@Override
@@ -103,7 +102,7 @@ public class UserServiceImpl implements IUserService{
      */
     public List<TUser> selectByCondition(TUser record) throws SQLException{
 //    	DynamicDataSourceHolder.setRouteKey("dataSource1");
-    	return this.userMapper.selectByConditionByPage(record);
+    	return this.tUserMapper.selectByConditionByPage(record);
     }
     
     /**
@@ -113,7 +112,7 @@ public class UserServiceImpl implements IUserService{
      * @throws SQLException
      */
     public TUser selectByAccount(String account) throws SQLException{
-    	return this.userMapper.selectByAccount(account);
+    	return this.tUserMapper.selectByAccount(account);
     }
     
 

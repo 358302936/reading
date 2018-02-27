@@ -1,7 +1,9 @@
 package com.hx.reader.controller;
 
 import java.rmi.RemoteException;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ServiceLoader;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -20,11 +22,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.hx.reader.components.HttpException;
 import com.hx.reader.components.PageParameter;
@@ -130,7 +128,7 @@ public class UserController{
 	 * @return
 	 */
 	@ApiVersion(2)
-	@RequestMapping(value="/query",method=RequestMethod.GET,produces="application/json;charset=UTF-8")
+	@RequestMapping(value="/query1",method=RequestMethod.GET,produces="application/json;charset=UTF-8")
 	public ResponseEntity<ReturnData> queryUser1(HttpServletRequest request,HttpServletResponse response,
 			@RequestParam String name){
 		ReturnData ret  = null;
@@ -236,6 +234,16 @@ public class UserController{
         
 		return new ResponseEntity<ReturnData>(ret, HttpStatus.OK);
 	}
-	
-	
+
+	@RequestMapping(value = "/test",method = RequestMethod.GET,produces = "application/json;charset=UTF-8")
+	public ResponseEntity<ReturnData> testService(){
+		ReturnData returnData = ReturnData.newSuccessReturnData();
+		ServiceLoader<IUserService> serviceLoader = ServiceLoader.load(IUserService.class);
+		Iterator<IUserService> it = serviceLoader.iterator();
+		while (it.hasNext()){
+			IUserService userService = it.next();
+			log.info("class:"+userService.getClass().getName());
+		}
+		return new ResponseEntity<ReturnData>(returnData,HttpStatus.OK);
+	}
 }
