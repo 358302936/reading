@@ -38,7 +38,7 @@ public interface ICached {
 	
 	/**
 	 * 根据 正则表达式key 获取 列表
-	 * @param keys
+	 * @param key
 	 * @return
 	 * @throws Exception
 	 */
@@ -69,7 +69,7 @@ public interface ICached {
 	/**
 	 * 删除 缓存
 	 * @param key
-	 * @param value
+	 * @param mapkey
 	 * @return
 	 * @throws Exception
 	 */
@@ -94,7 +94,6 @@ public interface ICached {
 	
 	/**
 	 * 获取 map的长度
-	 * @param key
 	 * @return
 	 * @throws Exception
 	 */
@@ -102,7 +101,6 @@ public interface ICached {
 	
 	/**
 	 * 获取 map的长度
-	 * @param key
 	 * @return
 	 * @throws Exception
 	 */

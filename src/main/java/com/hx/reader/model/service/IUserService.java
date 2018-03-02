@@ -39,4 +39,6 @@ public interface IUserService {
      * @throws SQLException
      */
     public TUser selectByAccount(String account) throws SQLException;
+
+    public void getWordInfo();
 }

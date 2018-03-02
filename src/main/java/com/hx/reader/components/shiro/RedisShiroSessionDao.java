@@ -6,13 +6,13 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import com.hx.reader.components.SerializeUtil;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.UnknownSessionException;
 import org.apache.shiro.session.mgt.eis.AbstractSessionDAO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.hx.reader.components.SerializeUtil;
 import com.hx.reader.redis.ICached;
 
 /**

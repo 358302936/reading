@@ -238,12 +238,13 @@ public class UserController{
 	@RequestMapping(value = "/test",method = RequestMethod.GET,produces = "application/json;charset=UTF-8")
 	public ResponseEntity<ReturnData> testService(){
 		ReturnData returnData = ReturnData.newSuccessReturnData();
-		ServiceLoader<IUserService> serviceLoader = ServiceLoader.load(IUserService.class);
-		Iterator<IUserService> it = serviceLoader.iterator();
-		while (it.hasNext()){
-			IUserService userService = it.next();
-			log.info("class:"+userService.getClass().getName());
-		}
+//		ServiceLoader<IUserService> serviceLoader = ServiceLoader.load(IUserService.class);
+//		Iterator<IUserService> it = serviceLoader.iterator();
+//		while (it.hasNext()){
+//			IUserService userService = it.next();
+//			log.info("class:"+userService.getClass().getName());
+//		}
+		userService.getWordInfo();
 		return new ResponseEntity<ReturnData>(returnData,HttpStatus.OK);
 	}
 }

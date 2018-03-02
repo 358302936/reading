@@ -6,21 +6,28 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.*;
 
-
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.hx.reader.everyday.august2017.RandomValue;
 import com.hx.reader.model.dao.TUserMapper;
+import com.hx.reader.model.dao.WeixinMenuMapper;
 import com.hx.reader.model.pojo.TUser;
 import com.hx.reader.model.service.IUserService;
+import com.hx.reader.model.vo.JyEnWordInfoVO;
+import com.hx.reader.weChat.WeixinUtil;
+import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
+
 
 @Service("userService")
-public class UserServiceImpl implements IUserService{
+public class UserServiceImpl implements IUserService {
 
 	@Autowired
 	private TUserMapper tUserMapper;
+	@Autowired
+	private WeixinMenuMapper weixinMenuMapper;
+
 	
 	@Override
 	public int deleteByPrimaryKey(Long id) {
@@ -34,6 +41,8 @@ public class UserServiceImpl implements IUserService{
 		// 创建可以容纳3个线程的线程池  
         ExecutorService fixedThreadPool = Executors.newFixedThreadPool(100);
 
+        ExecutorService executorService  = new ThreadPoolExecutor(10,20,500,
+				                  TimeUnit.MILLISECONDS,new LinkedBlockingQueue<Runnable>(5000), new ThreadPoolExecutor.DiscardPolicy());
 
 		for(int i=0;i<1000000;i++){
         	final UserServiceImpl userServiceImpl=this;
@@ -114,6 +123,36 @@ public class UserServiceImpl implements IUserService{
     public TUser selectByAccount(String account) throws SQLException{
     	return this.tUserMapper.selectByAccount(account);
     }
-    
+
+	@Override
+	public void getWordInfo() {
+        List<JyEnWordInfoVO> words = weixinMenuMapper.selectAllWord();
+        if(CollectionUtils.isEmpty(words)){
+        	return;
+		}
+		for(int i=6378;i<words.size();i++){
+			JSONObject jsonObject = WeixinUtil.getWordInfo(words.get(i).getWord());
+			JyEnWordInfoVO jyEnWordInfoVO = new JyEnWordInfoVO();
+			jyEnWordInfoVO.setWord(words.get(i).getWord());
+			try {
+				if(jsonObject.get("basic")!=null && !org.apache.commons.lang.StringUtils.isBlank(jsonObject.get("basic").toString())) {
+					jyEnWordInfoVO.setExplainText(jsonObject.get("basic").toString());
+				}
+				if(jsonObject.get("uksm") != null && !org.apache.commons.lang.StringUtils.isBlank(jsonObject.get("uksm").toString())) {
+					jyEnWordInfoVO.setSoundmarkUK(WeixinUtil.stringToUnicode(jsonObject.get("uksm").toString()));
+				}
+				if(jsonObject.get("ussm") != null && !org.apache.commons.lang.StringUtils.isBlank(jsonObject.get("ussm").toString())) {
+					jyEnWordInfoVO.setSoundmarkUS(WeixinUtil.stringToUnicode(jsonObject.get("ussm").toString()));
+				}
+			}catch (Exception e){
+				e.printStackTrace();
+			}
+
+
+			System.out.println("单词：new;音标：["+jyEnWordInfoVO.getSoundmark()+"],译文："+jyEnWordInfoVO.getExplainText());
+            weixinMenuMapper.insertWordInfo(jyEnWordInfoVO);
+		}
+	}
+
 
 }

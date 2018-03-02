@@ -114,4 +114,15 @@
       href = #{href,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <!-- 查询所有单词 -->
+  <select id="selectAllWord" resultType="com.hx.reader.model.vo.JyEnWordInfoVO">
+     select word from jy_en_exam_word
+  </select>
+
+  <!-- 添加单词信息 -->
+  <insert id="insertWordInfo" parameterType="com.hx.reader.model.vo.JyEnWordInfoVO">
+     insert into jy_en_word_info_us(word,soundmark_us,soundmark_uk,explain_text)
+     value(#{word},#{soundmarkUS},#{soundmarkUK},#{explainText})
+  </insert>
 </mapper>
