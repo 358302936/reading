@@ -245,8 +245,8 @@ public class WeixinUtil {
         String create_url="https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token="+getAccessToken();
         JSONObject jsonObject = new JSONObject();
         Map<String,Object> paramMap = new HashMap<>();
-        paramMap.put("expire_seconds",86400);
-        paramMap.put("action_name","QR_STR_SCENE");
+//        paramMap.put("expire_seconds",86400);
+        paramMap.put("action_name","QR_LIMIT_STR_SCENE");
 
         Map<String,Object> scene = new HashMap<>();
         scene.put("scene_str","111111111");
@@ -306,7 +306,7 @@ public class WeixinUtil {
     }
 
     public static void main(String[] args){
-        getWordInfo("info");
+        qrcodeCreate();
     }
 
 
