@@ -1,5 +1,8 @@
 package com.hx.reader.weChat;
 
+import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.hx.reader.components.upload.SpringUtils;
 import com.hx.reader.model.dao.WeixinMenuMapper;
 import com.hx.reader.weChat.vo.MyX509TrustManager;
@@ -19,6 +22,7 @@ import java.io.*;
 import java.net.ConnectException;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -305,8 +309,16 @@ public class WeixinUtil {
         return string.toString();
     }
 
+
+    public static void getProductInfo(){
+        String userInfoUrl = HttpUtil.getUrl("https://detail.tmall.com/item.htm?id=564648104692");
+        log.info(userInfoUrl);
+    }
+
+
+
     public static void main(String[] args){
-        qrcodeCreate();
+        HttpUtil.htmlPage("https://detail.tmall.com/item.htm?id=564648104692");
     }
 
 

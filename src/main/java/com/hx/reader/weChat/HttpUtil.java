@@ -2,7 +2,11 @@ package com.hx.reader.weChat;
 
 import java.io.IOException;
 import java.net.URLDecoder;
+import java.util.List;
 
+import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.HttpClient;
@@ -82,5 +86,19 @@ public class HttpUtil {
             e.printStackTrace();
         }
         return jsonResult;
+    }
+
+    public static void htmlPage(String url){
+        final WebClient webClient=new WebClient();//创建对象
+        final HtmlPage page;//获取页面
+        try {
+            page = webClient.getPage(url);
+            List<HtmlAnchor> achList=page.getAnchors();
+            for(HtmlAnchor ach:achList){
+                System.out.println(ach.getHrefAttribute());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
